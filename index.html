@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dropdown Menu</title>
+  <style>
+    .dropdown {
+      position: relative;
+      width: 200px;
+      font-family: sans-serif;
+    }
+
+    .dropdown-toggle {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      display: none;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    .dropdown-menu.open {
+      display: flex;
+    }
+
+    .dropdown-item {
+      padding: 10px;
+      cursor: pointer;
+      border-top: 1px solid #eee;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .selected-item {
+      font-weight: bold;
+      background-color: #e0e0e0;
+    }
+
+    .arrow {
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dropdown" id="dropdown">
+  <div class="dropdown-toggle" id="dropdownToggle">
+    <span id="selectedText">Select an Item</span>
+    <span class="arrow" id="arrow">▼</span>
+  </div>
+  <div class="dropdown-menu" id="dropdownMenu">
+    <div class="dropdown-item">First Item</div>
+    <div class="dropdown-item">Second Item</div>
+    <div class="dropdown-item">Third Item</div>
+    <div class="dropdown-item">Fourth Item</div>
+    <div class="dropdown-item">Fifth Item</div>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById("dropdownToggle");
+  const menu = document.getElementById("dropdownMenu");
+  const arrow = document.getElementById("arrow");
+  const items = document.querySelectorAll(".dropdown-item");
+  const selectedText = document.getElementById("selectedText");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("open");
+    arrow.textContent = menu.classList.contains("open") ? "▲" : "▼";
+  });
+
+  items.forEach(item => {
+    item.addEventListener("click", () => {
+      selectedText.textContent = item.textContent;
+      items.forEach(i => i.classList.remove("selected-item"));
+      item.classList.add("selected-item");
+      menu.classList.remove("open");
+      arrow.textContent = "▼";
+    });
+  });
+
+  // Opcional: cerrar menú si haces clic fuera
+  document.addEventListener("click", (e) => {
+    if (!document.getElementById("dropdown").contains(e.target)) {
+      menu.classList.remove("open");
+      arrow.textContent = "▼";
+    }
+  });
+</script>
+
+</body>
+</html>
